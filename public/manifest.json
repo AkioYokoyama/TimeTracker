@@ -1,0 +1,23 @@
+{
+  "manifest_version": 3,
+  "name": "サイト滞在時間トラッカー",
+  "version": "1.0.0",
+  "description": "1日のサイト別滞在時間を記録・表示します",
+  "permissions": ["tabs", "storage", "alarms", "idle"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  }
+}
