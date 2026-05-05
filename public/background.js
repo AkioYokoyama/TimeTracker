@@ -1,6 +1,8 @@
 // background.js — Chrome Extension Service Worker
 // Written in plain JS because service workers cannot be bundled by Vite directly.
 
+const EXCLUDE_KEY = 'tracker_exclude_list';
+
 /** @type {number|null} */
 let activeTabId = null;
 /** @type {string|null} */
@@ -24,8 +26,18 @@ function getTodayKey() {
   return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
 }
 
+async function getExcludeList() {
+  const result = await chrome.storage.local.get(EXCLUDE_KEY);
+  return result[EXCLUDE_KEY] ?? [];
+}
+
 async function saveTime(hostname, elapsedSeconds) {
   if (!hostname || elapsedSeconds <= 0) return;
+
+  // Check if hostname is excluded
+  const excluded = await getExcludeList();
+  if (excluded.includes(hostname)) return;
+
   const key = `tracker_${getTodayKey()}`;
   const result = await chrome.storage.local.get(key);
   const data = result[key] ?? {};
