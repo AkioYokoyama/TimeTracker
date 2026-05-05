@@ -75,9 +75,18 @@ export default function App() {
         <button className="reset-btn" onClick={handleReset}>
           このデータを削除
         </button>
-        <div className="tracking-status">
-          <div className="status-dot" />
-          記録中
+        <div className="footer-right">
+          <button
+            className="settings-btn"
+            title="設定"
+            onClick={() => chrome.runtime.openOptionsPage()}
+          >
+            ⚙
+          </button>
+          <div className="tracking-status">
+            <div className="status-dot" />
+            記録中
+          </div>
         </div>
       </footer>
     </div>

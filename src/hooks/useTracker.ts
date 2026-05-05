@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import type { DayData, SiteEntry } from '../types';
+import { getExcludeList } from './useExcludeList';
 
 function getDateKey(offset: number = 0): string {
   const d = new Date();
@@ -64,9 +65,14 @@ export function useSiteData(offset: number) {
   const [loading, setLoading] = useState(true);
 
   const load = useCallback(async () => {
-    const data = await fetchDayData(offset);
+    const [data, excluded] = await Promise.all([
+      fetchDayData(offset),
+      getExcludeList(),
+    ]);
+    const excludeSet = new Set(excluded);
+
     const sorted = Object.entries(data)
-      .filter(([, v]) => v > 1)
+      .filter(([hostname, v]) => v > 1 && !excludeSet.has(hostname))
       .sort(([, a], [, b]) => b - a);
 
     const total = sorted.reduce((sum, [, v]) => sum + v, 0);

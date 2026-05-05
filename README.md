@@ -12,16 +12,22 @@ time-tracker-vite/
 │   └── icons/              # アイコン画像（PNG: 16/48/128px）
 ├── src/
 │   ├── types/
-│   │   └── index.ts        # 共通型定義
+│   │   └── index.ts        # 共通型定義（SiteEntry, DayData, ExcludeList 等）
 │   ├── hooks/
-│   │   └── useTracker.ts   # データ取得・フォーマット用カスタムフック
+│   │   ├── useTracker.ts   # データ取得・日付フォーマットのカスタムフック
+│   │   └── useExcludeList.ts # 除外リストCRUDカスタムフック
 │   ├── components/
-│   │   ├── SiteItem.tsx    # サイト1行コンポーネント
-│   │   └── DateNav.tsx     # 日付ナビゲーションコンポーネント
-│   ├── App.tsx             # メインコンポーネント
-│   ├── main.tsx            # Reactエントリーポイント
-│   └── styles.css          # グローバルスタイル
-├── popup.html              # Viteのエントリーポイント
+│   │   ├── SiteItem.tsx    # サイト1行（プログレスバー・ファビコン）
+│   │   └── DateNav.tsx     # ‹ 日付ナビ ›
+│   ├── options/
+│   │   ├── main.tsx        # Optionsページ Reactエントリー
+│   │   ├── OptionsApp.tsx  # 除外リスト管理UI
+│   │   └── options.css     # Optionsページ専用スタイル
+│   ├── App.tsx             # Popupメインコンポーネント
+│   ├── main.tsx            # Popup Reactエントリー
+│   └── styles.css          # Popup グローバルスタイル
+├── popup.html              # Viteエントリー（Popup）
+├── option.html             # Viteエントリー（Options）
 ├── vite.config.ts
 ├── tsconfig.json
 └── package.json
@@ -73,6 +79,7 @@ npm run build -- --watch
 | アイドル検知 | 60秒操作がないと記録を一時停止 |
 | 日付ナビ | 過去30日分を ‹ › で遡れる |
 | リアルタイム更新 | 今日のビューは5秒ごとに自動更新 |
+| **除外リスト** | **設定画面から特定サイトを記録・集計から除外** |
 | データ削除 | 日別にデータをリセット可能 |
 | 自動クリーンアップ | 30日以上前のデータを自動削除 |
 
